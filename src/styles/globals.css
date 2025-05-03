@@ -5,5 +5,14 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-950 text-white;
+  @apply text-white bg-gray-950;
+}
+
+@keyframes dramatic-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.dramatic-pulse {
+  animation: dramatic-pulse 1.3s infinite;
 }
