@@ -68,13 +68,15 @@ export default function SignUpForm() {
       body: JSON.stringify({ phoneNumber: form.phoneNumber }),
       headers: { 'Content-Type': 'application/json' },
     });
-
+  
     if (res.ok) {
       setCodeSent(true);
       startTimer();
       alert('Verification code sent.');
     } else {
-      alert('Failed to send code.');
+      const { error } = await res.json();
+      console.error('SEND VERIFICATION ERROR:', error);
+      alert(`Failed to send code: ${error}`);
     }
   };
 
@@ -87,15 +89,15 @@ export default function SignUpForm() {
       }),
       headers: { 'Content-Type': 'application/json' },
     });
-
+  
     if (res.ok) {
-      if (timerRef.current !== null) {
-        clearInterval(timerRef.current);
-      }
+      clearInterval(timerRef.current!);
       setIsVerified(true);
       alert('Phone verified!');
     } else {
-      alert('Incorrect code.');
+      const { error } = await res.json();
+      console.error('VERIFY CODE ERROR:', error);
+      alert(`Incorrect code: ${error}`);
     }
   };
 
