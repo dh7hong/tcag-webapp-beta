@@ -1,4 +1,6 @@
 // src/components/Dropdown.tsx
+import React from 'react';
+
 interface DropdownProps {
   options: string[];
   value: string;

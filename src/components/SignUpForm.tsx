@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Input from "./Input";
 import Dropdown from "./Dropdown";
 import Button from "./Button";
+import React from 'react';
 
 export default function SignUpForm() {
 	const [form, setForm] = useState({
