@@ -114,18 +114,20 @@ export default function SignUpForm() {
 	};
 
 	const handleSubmit = async () => {
-		if (!isVerified) return alert("Verify phone first.");
-
-		const res = await fetch("/api/users", {
-			method: "POST",
-			body: JSON.stringify(form),
-			headers: { "Content-Type": "application/json" },
-		});
-
-		res.ok
-			? alert("Signup successful!")
-			: alert("Signup failed.");
-	};
+    if (!isVerified) return alert("Verify phone first.");
+  
+    const res = await fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: { "Content-Type": "application/json" },
+    });
+  
+    if (res.ok) {
+      alert("Signup successful!");
+    } else {
+      alert("Signup failed.");
+    }
+  };
 
 	return (
 		<div className="max-w-sm p-6 mx-auto space-y-4 shadow-xl bg-darkCard rounded-xl">

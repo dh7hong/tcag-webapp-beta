@@ -7,7 +7,7 @@ interface DropdownProps {
   placeholder?: string;
   width?: string;
   height?: string;
-  onChange: (val: string) => void;
+  onChange: (_val: string) => void;
 }
 
 export default function Dropdown({
