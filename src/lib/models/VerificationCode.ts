@@ -1,3 +1,4 @@
+// src/lib/models/VerificationCode.ts
 import { Schema, model, models } from 'mongoose';
 
 const VerificationCodeSchema = new Schema({

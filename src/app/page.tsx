@@ -12,8 +12,8 @@ export default function Home() {
   const handleClick = () => {
     setFadeOut(true);
     setTimeout(() => {
-      router.push('/signup');
-    }, 500); // Matches fade-out duration (500ms)
+      router.push('/login');
+    }, 500);
   };
 
   return (

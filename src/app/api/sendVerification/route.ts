@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
     await client.messages.create({
-      body: `RetailAI Verification Code: ${code}`,
+      body: `TCAG Verification Code: ${code}`,
       from: process.env.TWILIO_PHONE_NUMBER,
       to: formattedNumber,
     });
