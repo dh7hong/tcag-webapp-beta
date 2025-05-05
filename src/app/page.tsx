@@ -1,6 +1,5 @@
 // src/app/page.tsx
 "use client";
-
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import TypingEffect from '@/components/TypingEffect';
@@ -12,7 +11,7 @@ export default function Home() {
   const handleClick = () => {
     setFadeOut(true);
     setTimeout(() => {
-      router.push('/login');
+      router.push('/dice');  // updated to dice page
     }, 500);
   };
 
