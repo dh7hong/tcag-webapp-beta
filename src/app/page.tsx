@@ -9,28 +9,11 @@ export default function Home() {
   const router = useRouter();
   const [fadeOut, setFadeOut] = useState(false);
 
-  const requestBluetooth = async () => {
-    if (navigator.bluetooth) {
-      try {
-        await navigator.bluetooth.requestDevice({
-          acceptAllDevices: true,
-        });
-        console.log('Bluetooth permission granted.');
-      } catch (error) {
-        console.error('Bluetooth permission denied:', error);
-      }
-    } else {
-      alert('Bluetooth is not supported in your browser.');
-    }
-  };
-
   const handleClick = () => {
     setFadeOut(true);
-    requestBluetooth().finally(() => {
-      setTimeout(() => {
-        router.push('/login');
-      }, 500);
-    });
+    setTimeout(() => {
+      router.push('/login');
+    }, 500);
   };
 
   return (
