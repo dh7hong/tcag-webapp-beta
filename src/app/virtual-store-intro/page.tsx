@@ -1,17 +1,16 @@
-// src/app/page.tsx
 "use client";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import TypingEffect from '@/components/TypingEffect';
 
-export default function Home() {
+export default function VirtualStoreIntro() {
   const router = useRouter();
   const [fadeOut, setFadeOut] = useState(false);
 
   const handleClick = () => {
     setFadeOut(true);
     setTimeout(() => {
-      router.push('/login');
+      router.push('/store');
     }, 500);
   };
 
@@ -23,8 +22,8 @@ export default function Home() {
       }`}
     >
       <div className="max-w-sm p-6 bg-black shadow-xl cursor-pointer rounded-xl">
-        <TypingEffect text="THE--SIM" />
-        <p className="mt-4 text-center text-gray-400">(Tap anywhere to continue)</p>
+        <TypingEffect text="Welcome to TCAG's Virtual Store" />
+        <p className="mt-4 text-center text-gray-400">(Tap anywhere to enter the store)</p>
       </div>
     </main>
   );

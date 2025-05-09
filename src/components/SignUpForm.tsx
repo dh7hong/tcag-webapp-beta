@@ -130,7 +130,7 @@ export default function SignUpForm() {
   
     if (res.ok) {
       alert('Signup successful!');
-      router.push('/profile');
+      router.push('/dice');
     } else {
       const { message } = await res.json();
       alert(`Signup failed: ${message}`);

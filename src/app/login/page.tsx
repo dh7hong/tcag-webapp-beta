@@ -29,7 +29,7 @@ export default function LoginPage() {
 		});
 
 		if (res.ok) {
-			router.push("/profile");
+			router.push("/dice");
 		} else {
 			const data = await res.json();
 			alert(data.message || "Login failed");
