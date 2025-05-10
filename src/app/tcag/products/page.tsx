@@ -1,7 +1,8 @@
-// src/app/tcag/products/page.tsx
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dropdown from '@/components/Dropdown';
+import { useRouter } from 'next/navigation';
+import Papa from 'papaparse';
 
 const productImages = [
   "TS0001_tcag_top_t-shirt.png",
@@ -34,6 +35,23 @@ const capitalizeDashSeparated = (str: string) =>
 
 export default function ProductPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [coords, setCoords] = useState<Record<string, { x: number; y: number }>>({});
+  const router = useRouter();
+
+useEffect(() => {
+  fetch('/assets/data/coordinates.csv')
+    .then(res => res.text())
+    .then(csv => {
+      const parsed = Papa.parse(csv, { header: true });
+      const coordData: Record<string, { x: number; y: number }> = {};
+      parsed.data.forEach((row: any) => {
+        if (row.product && row.x && row.y) {
+          coordData[row.product.trim()] = { x: parseFloat(row.x), y: parseFloat(row.y) };
+        }
+      });
+      setCoords(coordData);
+    });
+}, []);
 
   const formattedProducts = productImages.map((fileName) => {
     const [, brand, category, product] = fileName.replace(".png", "").split("_");
@@ -46,6 +64,15 @@ export default function ProductPage() {
     selectedCategory === "all"
       ? formattedProducts
       : formattedProducts.filter((item) => item.category === selectedCategory);
+
+  const handleLocateItem = (fileName: string) => {
+    const coord = coords[fileName];
+    if (coord) {
+      router.push(`/store-locator?x=${coord.x}&y=${coord.y}`);
+    } else {
+      alert("Coordinates not set for this item yet.");
+    }
+  };
 
   return (
     <main className="min-h-screen p-8 text-white bg-gray-950">
@@ -75,6 +102,12 @@ export default function ProductPage() {
               <div className="font-semibold">
                 {capitalizeDashSeparated(item.product)}
               </div>
+              <button
+                className="px-3 py-1 mt-2 text-black bg-yellow-500 rounded"
+                onClick={() => handleLocateItem(item.fileName)}
+              >
+                Locate Item
+              </button>
             </div>
           </div>
         ))}
