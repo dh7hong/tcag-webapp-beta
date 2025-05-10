@@ -1,8 +1,16 @@
+// src/app/tcag/products/page.tsx
 "use client";
 import { useState, useEffect } from 'react';
 import Dropdown from '@/components/Dropdown';
 import { useRouter } from 'next/navigation';
 import Papa from 'papaparse';
+import Image from 'next/image';
+
+interface Coordinate {
+  product: string;
+  x: string;
+  y: string;
+}
 
 const productImages = [
   "TS0001_tcag_top_t-shirt.png",
@@ -38,20 +46,23 @@ export default function ProductPage() {
   const [coords, setCoords] = useState<Record<string, { x: number; y: number }>>({});
   const router = useRouter();
 
-useEffect(() => {
-  fetch('/assets/data/coordinates.csv')
-    .then(res => res.text())
-    .then(csv => {
-      const parsed = Papa.parse(csv, { header: true });
-      const coordData: Record<string, { x: number; y: number }> = {};
-      parsed.data.forEach((row: any) => {
-        if (row.product && row.x && row.y) {
-          coordData[row.product.trim()] = { x: parseFloat(row.x), y: parseFloat(row.y) };
-        }
+  useEffect(() => {
+    fetch('/assets/data/coordinates.csv')
+      .then(res => res.text())
+      .then(csv => {
+        const parsed = Papa.parse<Coordinate>(csv, { header: true });
+        const coordData: Record<string, { x: number; y: number }> = {};
+        parsed.data.forEach((row) => {
+          if (row.product && row.x && row.y) {
+            coordData[row.product.trim()] = {
+              x: parseFloat(row.x),
+              y: parseFloat(row.y),
+            };
+          }
+        });
+        setCoords(coordData);
       });
-      setCoords(coordData);
-    });
-}, []);
+  }, []);
 
   const formattedProducts = productImages.map((fileName) => {
     const [, brand, category, product] = fileName.replace(".png", "").split("_");
@@ -91,10 +102,12 @@ useEffect(() => {
       <div className="grid max-w-4xl grid-cols-2 gap-8 mx-auto">
         {filteredProducts.map((item, idx) => (
           <div key={idx} className="flex flex-col items-center p-4 bg-gray-900 shadow-lg rounded-xl">
-            <img
+            <Image
               src={`/assets/images/tcag/products/${item.fileName}`}
               alt={item.product}
-              className="object-contain w-48 h-48"
+              width={192}
+              height={192}
+              className="object-contain"
             />
             <div className="mt-4 space-y-1 text-center">
               <div className="text-sm font-bold uppercase">{item.brand}</div>

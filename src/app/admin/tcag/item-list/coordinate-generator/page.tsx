@@ -2,6 +2,12 @@
 import { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
 
+interface Coordinate {
+  product: string;
+  x: string;
+  y: string;
+}
+
 const products = [
   "TS0001_tcag_top_t-shirt.png",
   "TS0002_tcag_top_sleeveless.png",
@@ -28,13 +34,16 @@ const products = [
 export default function CoordinateGenerator() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [csvData, setCsvData] = useState([]);
+  const [csvData, setCsvData] = useState<Coordinate[]>([]);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     fetch('/assets/data/coordinates.csv')
       .then(res => res.text())
-      .then(text => setCsvData(Papa.parse(text, { header: true }).data as any));
+      .then(text => {
+        const parsed = Papa.parse<Coordinate>(text, { header: true });
+        setCsvData(parsed.data);
+      });
   }, []);
 
   const handleMapClick = (e: React.MouseEvent<HTMLImageElement>) => {
@@ -56,14 +65,18 @@ export default function CoordinateGenerator() {
     }
   };
 
-  const updateCSV = async (data: any) => {
-    await fetch('/api/update-coordinates', {
+  const updateCSV = async (data: Coordinate[]) => {
+    const response = await fetch('/api/update-coordinates', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
+
+    if (response.ok) {
+      alert('Coordinates successfully updated!');
+    } else {
+      alert('Failed to update coordinates.');
+    }
   };
 
   return (
@@ -71,8 +84,9 @@ export default function CoordinateGenerator() {
       <select
         className="px-3 py-2 mb-4 bg-gray-800 rounded"
         onChange={(e) => setSelectedProduct(e.target.value)}
+        value={selectedProduct}
       >
-        <option>Select Product</option>
+        <option value="">Select Product</option>
         {products.map(prod => (
           <option key={prod} value={prod}>{prod}</option>
         ))}
