@@ -1,3 +1,4 @@
+// src/app/api/products/set-coordinates/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import connectMongoDB from '@/lib/mongoose';
 import Product from '@/lib/models/Product';

@@ -1,7 +1,7 @@
+// src/app/admin/tcag/item-list/coordinate-generator/page.tsx
 "use client";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import Image from "next/image";
 
 export default function CoordinateGenerator() {
 	const [products, setProducts] = useState([]);
@@ -52,7 +52,7 @@ export default function CoordinateGenerator() {
 					<option value="">Select Product</option>
 					{products.map((prod: any) => (
 						<option key={prod.productId} value={prod.productId}>
-							{prod.productName} ({prod.productId})
+							({prod.productId}) {prod.productName}
 						</option>
 					))}
 				</select>
