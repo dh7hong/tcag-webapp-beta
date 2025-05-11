@@ -1,16 +1,26 @@
+// src/app/api/update-coordinates/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import Papa from 'papaparse';
 
-const csvFilePath = path.join(process.cwd(), 'public/assets/data/coordinates.csv');
+export async function POST(request: NextRequest) {
+  try {
+    const coordinates = await request.json(); // Data sent from frontend
 
-export async function POST(req: NextRequest) {
-  const newData = await req.json();
+    const csv = Papa.unparse(coordinates, {
+      header: true,
+      columns: ["product", "x", "y"],
+    });
 
-  const csv = Papa.unparse(newData);
+    // Make sure this directory exists in your project
+    const filePath = path.join(process.cwd(), 'public/assets/data/coordinates.csv');
 
-  fs.writeFileSync(csvFilePath, csv, 'utf8');
+    fs.writeFileSync(filePath, csv, 'utf-8');
 
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
 }

@@ -13,9 +13,7 @@ function StoreLocatorComponent() {
   const [markerPos, setMarkerPos] = useState({ left: '0%', top: '0%' });
 
   useEffect(() => {
-    if (x && y) {
-      setMarkerPos({ left: `${x}%`, top: `${y}%` });
-    }
+    setMarkerPos({ left: `${x}%`, top: `${y}%` });
   }, [x, y]);
 
   return (
@@ -23,18 +21,24 @@ function StoreLocatorComponent() {
       <Link href="/tcag/products" className="absolute px-3 py-1 text-white bg-gray-800 rounded top-4 left-4">
         ← Back to Products
       </Link>
-      <div ref={imgRef} className="relative max-h-screen rounded shadow-lg">
+
+      <div ref={imgRef} className="relative inline-block max-w-3xl">
         <img
           src="/assets/images/tcag/map/tcag_store-map.png"
           alt="Store Map"
           className="rounded shadow-lg"
         />
-        {x && y && (
-          <div
-            className="absolute w-8 h-8 bg-yellow-400 rounded-full opacity-50 pointer-events-none"
-            style={{ left: markerPos.left, top: markerPos.top, transform: 'translate(-50%, -50%)' }}
-          />
-        )}
+
+        <div
+          className="absolute bg-yellow-400 bg-opacity-50 rounded-full pointer-events-none animate-pulse"
+          style={{
+            left: markerPos.left,
+            top: markerPos.top,
+            width: '30px',
+            height: '30px',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
       </div>
     </main>
   );
