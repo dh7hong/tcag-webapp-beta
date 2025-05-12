@@ -4,8 +4,6 @@ import twilio from 'twilio';
 import connectMongoDB from '@/lib/mongoose';
 import VerificationCode from '@/lib/models/VerificationCode';
 
-const formatKoreanNumber = (number: string) =>
-  number.startsWith('010') ? number.replace(/^010/, '+8210') : number;
 
 export async function POST(req: NextRequest) {
   try {

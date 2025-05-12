@@ -49,7 +49,7 @@ export default function Products() {
 
   const handleLocateItem = (item: Product) => {
     if (item.xCoordinate !== undefined && item.yCoordinate !== undefined) {
-      router.push(`/store-locator?x=${item.xCoordinate}&y=${item.yCoordinate}`);
+      router.push(`/store-item-locator?x=${item.xCoordinate}&y=${item.yCoordinate}`);
     } else {
       alert('Coordinates not set for this item yet.');
     }

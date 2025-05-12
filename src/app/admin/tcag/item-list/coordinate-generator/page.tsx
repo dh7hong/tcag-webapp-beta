@@ -3,6 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
+interface Product {
+  productId: string;
+  productName: string;
+}
+
 export default function CoordinateGenerator() {
 	const [products, setProducts] = useState([]);
 	const [selectedProductId, setSelectedProductId] = useState("");
@@ -50,7 +55,7 @@ export default function CoordinateGenerator() {
 					onChange={(e) => setSelectedProductId(e.target.value)}
 				>
 					<option value="">Select Product</option>
-					{products.map((prod: any) => (
+					{products.map((prod: Product) => (
 						<option key={prod.productId} value={prod.productId}>
 							({prod.productId}) {prod.productName}
 						</option>
